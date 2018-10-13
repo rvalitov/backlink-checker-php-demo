@@ -1,0 +1,19 @@
+{
+  "name": "rvalitov/backlink-checker-php-demo",
+  "description": "Examples and demo of backlink-checker-php library",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/rvalitov/backlink-checker-php-demo",
+  "authors": [
+    {
+      "name": "Ramil Valitov",
+      "email": "ramilvalitov@gmail.com",
+      "homepage": "https://github.com/rvalitov"
+    }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "rvalitov/backlink-checker-php": "~1.0.0",
+    "league/climate": "~3.4.1"
+  }
+}
