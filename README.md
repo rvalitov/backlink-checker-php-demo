@@ -17,7 +17,7 @@ If `javascript` mode is used, then the script will save a screenshot of the brow
 # Usage Example
 Input and output:
 
-```bash
+```
 php cli_test.php -u https://classess.page.tl/ -p @^https://(www\.)?dubaidance\.com.*@
 Using mode: javascript
 Found 1 backlinks
