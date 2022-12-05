@@ -2,15 +2,16 @@
 
 require __DIR__ . "/vendor/autoload.php";
 
-define("SCREENSHOTS_DIR", __DIR__ . "/screenshots");
+const SCREENSHOTS_DIR = __DIR__ . "/screenshots";
 
+use League\CLImate\CLImate;
 use Valitov\BacklinkChecker;
 
 if (php_sapi_name() !== 'cli') {
     die("This script can run in CLI mode only");
 }
 
-$climate = new \League\CLImate\CLImate;
+$climate = new CLImate;
 
 $shortOpts = "u:p:m::";
 
@@ -22,6 +23,10 @@ if ($options === false || !isset($options["u"]) || !isset($options["p"])) {
 
 $url = $options["u"];
 $pattern = $options["p"];
+if (@preg_match($pattern, '') === false) {
+    $climate->error("Failed to validate RegExp pattern. Does it contain a syntax error?");
+    exit(1);
+}
 
 if (!isset($options["m"]))
     $options["m"] = "javascript";
@@ -50,7 +55,7 @@ if (!file_exists(SCREENSHOTS_DIR)) {
 
 try {
     $result = $checker->getBacklinks($url, $pattern, true, false, true);
-} catch (RuntimeException $e) {
+} catch (\Exception $e) {
     $climate->error($e->getMessage());
     exit(1);
 }
