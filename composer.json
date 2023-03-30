@@ -13,7 +13,7 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
     "ext-mbstring": "*",
     "rvalitov/backlink-checker-php": "^1.0.5",
     "league/climate": "~3.4.1"
