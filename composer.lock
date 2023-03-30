@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea56c7d28bad18d460909652a74e83b4",
+    "content-hash": "fdbc5f24290c3c213b6b457cce829c27",
     "packages": [
         {
             "name": "clue/socket-raw",
@@ -523,36 +523,48 @@
         },
         {
             "name": "nesk/puphpeteer",
-            "version": "2.0.0",
+            "version": "dev-zoon",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rialto-php/puphpeteer.git",
-                "reference": "0d51359c98cb6500edc033260be5944b23cbf573"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rialto-php/puphpeteer/zipball/0d51359c98cb6500edc033260be5944b23cbf573",
-                "reference": "0d51359c98cb6500edc033260be5944b23cbf573",
-                "shasum": ""
+                "url": "https://github.com/zoonru/puphpeteer.git",
+                "reference": "163955fe30d00aa8c67f65be823a074396879347"
             },
             "require": {
-                "nesk/rialto": "^1.2.0",
-                "php": ">=7.3",
-                "psr/log": "^1.0",
+                "ext-json": "*",
+                "nesk/rialto": "dev-zoon",
+                "php": "^7.3 || ^8.0",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
                 "vierbergenlars/php-semver": "^3.0.2"
             },
             "require-dev": {
-                "monolog/monolog": "^2.0",
+                "monolog/monolog": "^2.0|^3.0",
                 "phpunit/phpunit": "^9.0",
-                "symfony/process": "^4.0|^5.0"
+                "symfony/console": "^4.0|^5.0|^6.0",
+                "symfony/process": "^4.0|^5.0|^6.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Nesk\\Puphpeteer\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Nesk\\Puphpeteer\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "npm install"
+                ],
+                "test": [
+                    "./vendor/bin/phpunit"
+                ],
+                "update-docs": [
+                    "php bin/console doc:generate"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -572,62 +584,49 @@
                 "testing",
                 "web"
             ],
-            "support": {
-                "issues": "https://github.com/rialto-php/puphpeteer/issues",
-                "source": "https://github.com/rialto-php/puphpeteer/tree/2.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/johannpardanaud",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/nesk",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/spekulatius",
-                    "type": "github"
-                }
-            ],
-            "abandoned": true,
-            "time": "2020-12-01T11:49:36+00:00"
+            "time": "2022-08-16T11:52:01+00:00"
         },
         {
             "name": "nesk/rialto",
-            "version": "1.4.0",
+            "version": "dev-zoon",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nesk/rialto.git",
-                "reference": "a3db615d845cca42135fa1e271b323ffe904b83c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nesk/rialto/zipball/a3db615d845cca42135fa1e271b323ffe904b83c",
-                "reference": "a3db615d845cca42135fa1e271b323ffe904b83c",
-                "shasum": ""
+                "url": "https://github.com/zoonru/rialto.git",
+                "reference": "c6ffad796941eaaf166c089f116a762f1c79d2e4"
             },
             "require": {
                 "clue/socket-raw": "^1.2",
-                "php": ">=7.1",
-                "psr/log": "^1.0",
-                "symfony/process": "^3.3|^4.0|^5.0"
+                "php": "^7.2 || ^8.0",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "symfony/process": "^3.3 || ^4.0 || ^5.0 || ^6.0"
             },
             "require-dev": {
-                "codedungeon/phpunit-result-printer": ">=0.6 <1.0",
-                "monolog/monolog": "^1.23",
-                "phpunit/phpunit": "^6.5|^7.0"
+                "monolog/monolog": "^1.0 || ^2.0 || ^3.0",
+                "phpunit/phpunit": "^8.0 || ^9.0"
             },
             "suggest": {
                 "ext-weakref": "Required to run all the tests"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Nesk\\Rialto\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Nesk\\Rialto\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "npm install"
+                ],
+                "test": [
+                    "./vendor/bin/phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -639,19 +638,14 @@
             ],
             "description": "Manage Node resources from PHP",
             "keywords": [
-                "Bridge",
-                "Socket",
+                "bridge",
                 "communication",
                 "node",
                 "php",
+                "socket",
                 "wrapper"
             ],
-            "support": {
-                "issues": "https://github.com/nesk/rialto/issues",
-                "source": "https://github.com/nesk/rialto/tree/1.4.0"
-            },
-            "abandoned": true,
-            "time": "2020-04-12T13:11:08+00:00"
+            "time": "2022-08-16T11:54:56+00:00"
         },
         {
             "name": "psr/http-client",
@@ -909,24 +903,24 @@
         },
         {
             "name": "rvalitov/backlink-checker-php",
-            "version": "1.1.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rvalitov/backlink-checker-php.git",
-                "reference": "7401f29f29ee0f0c051d992ed1730fc19aaac647"
+                "reference": "5d89cb458c046d7749b671cd373a0bb70f079f67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rvalitov/backlink-checker-php/zipball/7401f29f29ee0f0c051d992ed1730fc19aaac647",
-                "reference": "7401f29f29ee0f0c051d992ed1730fc19aaac647",
+                "url": "https://api.github.com/repos/rvalitov/backlink-checker-php/zipball/5d89cb458c046d7749b671cd373a0bb70f079f67",
+                "reference": "5d89cb458c046d7749b671cd373a0bb70f079f67",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/guzzle": "7.*",
                 "kub-at/php-simple-html-dom-parser": "^1.9.1",
-                "nesk/puphpeteer": "2.*",
-                "php": ">=7.4.0"
+                "nesk/puphpeteer": "dev-zoon",
+                "php": "^7.3 || ^8.0"
             },
             "type": "library",
             "autoload": {
@@ -957,7 +951,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-30T15:51:28+00:00"
+            "time": "2023-03-30T17:46:58+00:00"
         },
         {
             "name": "seld/cli-prompt",
@@ -1285,12 +1279,12 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2",
+        "php": "^7.3||^8.0",
         "ext-mbstring": "*"
     },
     "platform-dev": [],

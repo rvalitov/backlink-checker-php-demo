@@ -10,12 +10,22 @@
       "homepage": "https://github.com/rvalitov"
     }
   ],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.4",
+    "php": "^7.3||^8.0",
     "ext-mbstring": "*",
-    "rvalitov/backlink-checker-php": "^1.0.5",
+    "rvalitov/backlink-checker-php": "^2.0.0",
     "league/climate": "~3.4.1"
-  }
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/zoonru/puphpeteer.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/zoonru/rialto.git"
+    }
+  ]
 }
