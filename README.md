@@ -2,6 +2,7 @@
 This is a demo project to demonstrate how the [Backlink Checker PHP library](https://github.com/rvalitov/backlink-checker-php) works.
 
 #### SYNOPSIS
+
 php **cli_test.php** -u *URL* -p *PATTERN* [-m *MODE*]
 
 #### DESCRIPTION

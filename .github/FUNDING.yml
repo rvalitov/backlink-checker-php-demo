@@ -1,11 +1,11 @@
 # These are supported funding model platforms
 
 github: rvalitov
-patreon: #
+patreon: ramilvalitov
 open_collective: #
 ko_fi: #
 tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
 community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
 liberapay: #
 issuehunt: #
-custom: #
+custom: ['https://donations.walitoff.com']

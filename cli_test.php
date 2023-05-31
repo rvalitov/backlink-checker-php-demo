@@ -65,7 +65,7 @@ if ($screenshot && strlen($screenshot) > 0) {
     $file_name = preg_replace('/[^a-z0-9]+/', '-', strtolower(html_entity_decode($url)));
     file_put_contents(SCREENSHOTS_DIR . "/" . $file_name . ".jpg", $screenshot);
 }
-if (!$response->getSuccess()) {
+if (!$response->isSuccess()) {
     $climate->error("Error code: " . $response->getStatusCode());
     exit(1);
 }

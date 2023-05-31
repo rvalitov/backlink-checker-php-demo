@@ -6,14 +6,14 @@
   "authors": [
     {
       "name": "Ramil Valitov",
-      "email": "ramilvalitov@gmail.com",
+      "email": "ramil@walitoff.com",
       "homepage": "https://github.com/rvalitov"
     }
   ],
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": "^7.3||^8.0",
+    "php": "^7.4.20 || ^8.0.7",
     "ext-mbstring": "*",
     "rvalitov/backlink-checker-php": "^2.0.0",
     "league/climate": "~3.4.1"
