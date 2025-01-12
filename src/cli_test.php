@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . "/vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 const SCREENSHOTS_DIR = __DIR__ . "/screenshots";
 
@@ -22,14 +22,29 @@ if ($options === false || !isset($options["u"]) || !isset($options["p"])) {
 }
 
 $url = $options["u"];
+if (!is_string($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+    $climate->error("Invalid URL");
+    exit(1);
+}
+
 $pattern = $options["p"];
+if (!is_string($pattern)) {
+    $climate->error("Pattern must be a string");
+    exit(1);
+}
+if ($pattern === "") {
+    $climate->error("Pattern is empty");
+    exit(1);
+}
+
 if (@preg_match($pattern, '') === false) {
     $climate->error("Failed to validate RegExp pattern. Does it contain a syntax error?");
     exit(1);
 }
 
-if (!isset($options["m"]))
+if (!isset($options["m"]) || !is_string($options["m"]) || $options["m"] === "") {
     $options["m"] = "javascript";
+}
 
 $parameter = strtolower($options["m"]);
 switch ($parameter) {
@@ -51,6 +66,11 @@ if (!file_exists(SCREENSHOTS_DIR)) {
         $climate->error("Failed to create directory for screenshots");
         exit(1);
     }
+} else {
+    if (!is_dir(SCREENSHOTS_DIR)) {
+        $climate->error("Screenshots directory is not a directory. Please remove the file with the same name.");
+        exit(1);
+    }
 }
 
 try {
@@ -61,7 +81,7 @@ try {
 }
 $response = $result->getResponse();
 $screenshot = $response->getScreenshot();
-if ($screenshot && strlen($screenshot) > 0) {
+if ($screenshot) {
     $file_name = preg_replace('/[^a-z0-9]+/', '-', strtolower(html_entity_decode($url)));
     file_put_contents(SCREENSHOTS_DIR . "/" . $file_name . ".jpg", $screenshot);
 }
@@ -73,7 +93,7 @@ if (!$response->isSuccess()) {
 $links = $result->getBacklinks();
 $climate->cyan("Found " . sizeof($links) . " backlinks");
 
-foreach ($links as $key => $link) {
+foreach ($links as $link) {
     $climate->out("Found <" . $link->getTag() . "> src=" . $link->getBacklink() . " anchor=" . $link->getAnchor());
 }
 $climate->cyan("All operations complete");
