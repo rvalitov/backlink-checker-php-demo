@@ -1,8 +1,8 @@
 {
   "name": "rvalitov/backlink-checker-php-demo",
   "description": "Examples and demo of backlink-checker-php library",
-  "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/rvalitov/backlink-checker-php-demo",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Ramil Valitov",
@@ -13,19 +13,18 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": "^7.4.20 || ^8.0.7",
+    "php": "^7.4.20 || ^8.0.7 || >=8.1",
     "ext-mbstring": "*",
-    "rvalitov/backlink-checker-php": "^2.0.0",
-    "league/climate": "~3.4.1"
+    "rvalitov/backlink-checker-php": "dev-master",
+    "league/climate": "^3.10.0"
   },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/zoonru/puphpeteer.git"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/zoonru/rialto.git"
-    }
-  ]
+  "require-dev": {
+    "phpmd/phpmd": "^2.15",
+    "squizlabs/php_codesniffer": "^3.11",
+    "phpunit/phpunit": "^9.6",
+    "phpunit/php-code-coverage": "^9.2",
+    "friendsofphp/php-cs-fixer": "^3.66",
+    "phpstan/phpstan": "^2.1",
+    "vimeo/psalm": "^5.26"
+  }
 }
