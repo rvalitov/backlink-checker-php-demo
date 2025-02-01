@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cccf7f4c9e54e1cb5703a1ec579a99e6",
+    "content-hash": "ae6cbd261011b1a9da523a52104cd77e",
     "packages": [
         {
             "name": "clue/socket-raw",
@@ -803,16 +803,16 @@
         },
         {
             "name": "rvalitov/backlink-checker-php",
-            "version": "dev-master",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rvalitov/backlink-checker-php.git",
-                "reference": "670ef033be9262499bed61f22ed5e07d66150bed"
+                "reference": "baec6553fca0618ceaa5d230ef3113f7b4c17094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rvalitov/backlink-checker-php/zipball/670ef033be9262499bed61f22ed5e07d66150bed",
-                "reference": "670ef033be9262499bed61f22ed5e07d66150bed",
+                "url": "https://api.github.com/repos/rvalitov/backlink-checker-php/zipball/baec6553fca0618ceaa5d230ef3113f7b4c17094",
+                "reference": "baec6553fca0618ceaa5d230ef3113f7b4c17094",
                 "shasum": ""
             },
             "require": {
@@ -832,7 +832,6 @@
                 "squizlabs/php_codesniffer": "3.*",
                 "vimeo/psalm": "^5.26.1"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -866,7 +865,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-08T09:09:20+00:00"
+            "time": "2025-02-01T17:11:51+00:00"
         },
         {
             "name": "seld/cli-prompt",
@@ -2949,16 +2948,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "cd6e973e04b4c2b94c86e8612b5a65f0da0e08e7"
+                "reference": "7d08f569e582ade182a375c366cbd896eccadd3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cd6e973e04b4c2b94c86e8612b5a65f0da0e08e7",
-                "reference": "cd6e973e04b4c2b94c86e8612b5a65f0da0e08e7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7d08f569e582ade182a375c366cbd896eccadd3a",
+                "reference": "7d08f569e582ade182a375c366cbd896eccadd3a",
                 "shasum": ""
             },
             "require": {
@@ -3003,7 +3002,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-05T16:43:48+00:00"
+            "time": "2025-01-21T14:54:06+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5089,16 +5088,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.11.2",
+            "version": "3.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "1368f4a58c3c52114b86b1abe8f4098869cb0079"
+                "reference": "ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/1368f4a58c3c52114b86b1abe8f4098869cb0079",
-                "reference": "1368f4a58c3c52114b86b1abe8f4098869cb0079",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10",
+                "reference": "ba05f990e79cbe69b9f35c8c1ac8dca7eecc3a10",
                 "shasum": ""
             },
             "require": {
@@ -5163,9 +5162,13 @@
                 {
                     "url": "https://opencollective.com/php_codesniffer",
                     "type": "open_collective"
+                },
+                {
+                    "url": "https://thanks.dev/phpcsstandards",
+                    "type": "thanks_dev"
                 }
             ],
-            "time": "2024-12-11T16:04:26+00:00"
+            "time": "2025-01-23T17:04:15+00:00"
         },
         {
             "name": "symfony/config",
@@ -6705,13 +6708,11 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "rvalitov/backlink-checker-php": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4.20 || ^8.0.7 || >=8.1",
+        "php": "^8.0.7 || >=8.1",
         "ext-mbstring": "*"
     },
     "platform-dev": {},
