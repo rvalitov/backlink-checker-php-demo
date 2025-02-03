@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CLI script to check the backlinks on a page.
  * This is a demo of using the BacklinkChecker library.
