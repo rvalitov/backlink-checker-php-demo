@@ -38,8 +38,8 @@ final class CliTest extends TestCase //phpcs:ignore
             "javascript",
         ];
         foreach ($engines as $engine) {
-            exec("$this->phpExecutable -u \"$url\" -p \"@.*@\" -m $engine", $output, $exit_code);
-            $this->assertEquals(0, $exit_code, "Exit code is not 0");
+            exec("$this->phpExecutable -u \"$url\" -p \"@.*@\" -m $engine", $output, $exitCode);
+            $this->assertEquals(0, $exitCode, "Exit code is not 0");
             $this->assertIsArray($output, "Failed to get the output from the script");
             // Merge the output array into a single string
             $output = implode("\n", $output);

@@ -12,10 +12,10 @@ use phpmock\Mock;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class CodeTest
- * Tests the code base
+ * Class BasicTest
+ * Tests the code base with the basic functionality
  */
-final class CodeTest extends TestCase //phpcs:ignore
+final class BasicTest extends TestCase //phpcs:ignore
 {
     use \phpmock\phpunit\PHPMock;
 
@@ -67,7 +67,7 @@ final class CodeTest extends TestCase //phpcs:ignore
      */
     public function testInvalidPattern()
     {
-        $invalid_patterns = [
+        $invalidPatterns = [
             false,
             '/unclosed[/',             // Unclosed character class
             '/(unclosed group/',       // Unclosed parenthesis
@@ -89,7 +89,7 @@ final class CodeTest extends TestCase //phpcs:ignore
             '/[\w-\d]/',               // Contradictory character class
         ];
 
-        foreach ($invalid_patterns as $pattern) {
+        foreach ($invalidPatterns as $pattern) {
             $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => "https://example.com",
@@ -155,8 +155,8 @@ final class CodeTest extends TestCase //phpcs:ignore
      */
     public function testInvalidSapi(): void
     {
-        $php_sapi_name = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "php_sapi_name");
-        $php_sapi_name->expects($this->once())->willReturn("php-fpm");
+        $phpSapiName = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "php_sapi_name");
+        $phpSapiName->expects($this->once())->willReturn("php-fpm");
 
         $this->expectExceptionMessage("This script can run in CLI mode only");
         require self::SCRIPT_FILENAME;
@@ -276,207 +276,5 @@ final class CodeTest extends TestCase //phpcs:ignore
         require self::SCRIPT_FILENAME;
         Mock::disableAll();
         unset($getOpt);
-    }
-
-    /**
-     * Tests for one link
-     * @return void
-     */
-    public function testLink(): void
-    {
-        $engines = [
-            "simple",
-            "javascript",
-        ];
-
-        foreach ($engines as $engine) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-            $getOpt->expects($this->once())->willReturn([
-                "u" => self::HOST . "link.html",
-                "p" => "@.*@",
-                "m" => $engine,
-            ]);
-
-            ob_clean();
-            require self::SCRIPT_FILENAME;
-            $output = ob_get_contents();
-            $this->assertStringContainsString("Found 1 backlinks", $output);
-            $this->assertStringContainsString("Found <a> src=https://example.com anchor=Click here", $output);
-            $this->assertStringContainsString("All operations complete", $output);
-            Mock::disableAll();
-            unset($getOpt);
-        }
-    }
-
-    /**
-     * Tests for multiple links
-     * @return void
-     */
-    public function testLinks(): void
-    {
-        $engines = [
-            "simple",
-            "javascript",
-        ];
-
-        foreach ($engines as $engine) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-            $getOpt->expects($this->once())->willReturn([
-                "u" => self::HOST . "links.html",
-                "p" => "@.*@",
-                "m" => $engine,
-            ]);
-
-            ob_clean();
-            require self::SCRIPT_FILENAME;
-            $output = ob_get_contents();
-            $this->assertStringContainsString("Found 2 backlinks", $output);
-            $this->assertStringContainsString("Found <a> src=https://example.com anchor=First", $output);
-            $this->assertStringContainsString("Found <a> src=https://example2.com anchor=Second", $output);
-            $this->assertStringContainsString("All operations complete", $output);
-            Mock::disableAll();
-            unset($getOpt);
-
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-            $getOpt->expects($this->once())->willReturn([
-                "u" => self::HOST . "links.html",
-                "p" => "@https:\/\/example2\.com@",
-                "m" => $engine,
-            ]);
-
-            ob_clean();
-            require self::SCRIPT_FILENAME;
-            $output = ob_get_contents();
-            $this->assertStringContainsString("Found 1 backlinks", $output);
-            $this->assertStringContainsString("Found <a> src=https://example2.com anchor=Second", $output);
-            $this->assertStringContainsString("All operations complete", $output);
-            Mock::disableAll();
-            unset($getOpt);
-        }
-    }
-
-    /**
-     * Tests for no links
-     * @return void
-     */
-    public function testNoLinks(): void
-    {
-        $engines = [
-            "simple",
-            "javascript",
-        ];
-        foreach ($engines as $engine) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-            $getOpt->expects($this->once())->willReturn([
-                "u" => self::HOST . "nolink.html",
-                "p" => "@.*@",
-                "m" => $engine,
-            ]);
-
-            ob_clean();
-            require self::SCRIPT_FILENAME;
-            $output = ob_get_contents();
-            $this->assertStringContainsString("Found 0 backlinks", $output);
-            $this->assertStringContainsString("All operations complete", $output);
-            Mock::disableAll();
-            unset($getOpt);
-
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-            $getOpt->expects($this->once())->willReturn([
-                "u" => self::HOST . "links.html",
-                "p" => "@https:\/\/example10\.com@",
-                "m" => $engine,
-            ]);
-
-            ob_clean();
-            require self::SCRIPT_FILENAME;
-            $output = ob_get_contents();
-            $this->assertStringContainsString("Found 0 backlinks", $output);
-            $this->assertStringContainsString("All operations complete", $output);
-            Mock::disableAll();
-            unset($getOpt);
-        }
-    }
-
-    /**
-     * Tests for screenshots
-     * @return void
-     */
-    public function testScreenshot(): void
-    {
-        // Delete all files in the screenshots directory
-        $files = glob(Base::SCREENSHOTS_DIR . "/*");
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                unlink($file);
-            }
-        }
-
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-        $getOpt->expects($this->once())->willReturn([
-            "u" => self::HOST . "link.html",
-            "p" => "@.*@",
-            "m" => "javascript",
-        ]);
-
-        ob_clean();
-        require self::SCRIPT_FILENAME;
-        Mock::disableAll();
-        unset($getOpt);
-        $output = ob_get_contents();
-        $this->assertStringContainsString("Found <", $output);
-        $this->assertStringContainsString("All operations complete", $output);
-
-        // Check if the screenshot was saved
-        $files = glob(Base::SCREENSHOTS_DIR . "/*");
-        $this->assertNotEmpty($files, "Screenshot was not saved");
-        // There should be only one file
-        $this->assertCount(1, $files, "More than one screenshot was saved");
-        // Check if the file is a JPEG image
-        $this->assertStringEndsWith(".jpg", $files[0], "Screenshot does not have a .jpg extension");
-        // Check if the file is a valid image
-        $this->assertNotFalse(imagecreatefromjpeg($files[0]), "Screenshot is not a valid JPEG image");
-    }
-
-    /**
-     * Tests for JS generated link
-     * @return void
-     */
-    public function testJsLink(): void
-    {
-        // In simple mode, we can detect only one link
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-        $getOpt->expects($this->once())->willReturn([
-            "u" => self::HOST . "js.html",
-            "p" => "@.*@",
-            "m" => "simple",
-        ]);
-
-        ob_clean();
-        require self::SCRIPT_FILENAME;
-        Mock::disableAll();
-        unset($getOpt);
-        $output = ob_get_contents();
-        $this->assertStringContainsString("Found 1 backlinks", $output);
-        $this->assertStringContainsString("Found <a> src=https://example.com anchor=Static", $output);
-        $this->assertStringContainsString("All operations complete", $output);
-
-        // In JS mode, we can detect both links
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
-        $getOpt->expects($this->once())->willReturn([
-            "u" => self::HOST . "js.html",
-            "p" => "@.*@",
-            "m" => "javascript",
-        ]);
-
-        ob_clean();
-        require self::SCRIPT_FILENAME;
-        Mock::disableAll();
-        unset($getOpt);
-        $output = ob_get_contents();
-        $this->assertStringContainsString("Found 2 backlinks", $output);
-        $this->assertStringContainsString("Found <a> src=https://example.com anchor=Static", $output);
-        $this->assertStringContainsString("Found <a> src=https://example.com anchor=Dynamic", $output);
-        $this->assertStringContainsString("All operations complete", $output);
     }
 }

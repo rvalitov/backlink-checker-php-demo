@@ -9,15 +9,16 @@ class Base
     /**
      * End the program with an error message
      * @param string $message - the error message to display
-     * @param class-string $e - the exception to throw if the app is running under PHPUnit
+     * @param class-string $exceptionClass - the exception to throw if the app is running under PHPUnit
      * @param int $exitCode - the exit code to return if the app is not running under PHPUnit
      * @return void
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public static function endProgram(string $message, string $e, int $exitCode = 1): void
+    public static function endProgram(string $message, string $exceptionClass, int $exitCode = 1): void
     {
         // Check if we run under PHPUnit
         if (defined('PHPUNIT_COMPOSER_INSTALL')) {
-            throw new $e($message);
+            throw new $exceptionClass($message);
         } else {
             if ($message !== "") {
                 echo "$message" . PHP_EOL;
@@ -28,17 +29,18 @@ class Base
 
     /**
      * End the program because of an exception
-     * @param \Exception $e - the exception that caused the program to end
+     * @param \Exception $exception - the exception that caused the program to end
      * @param int $exitCode - the exit code to return if the app is not running under PHPUnit
      * @return void
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public static function endProgramException(\Exception $e, int $exitCode = 1): void
+    public static function endProgramException(\Exception $exception, int $exitCode = 1): void
     {
         // Check if we run under PHPUnit
         if (defined('PHPUNIT_COMPOSER_INSTALL')) {
-            throw $e;
+            throw $exception;
         } else {
-            echo $e->getMessage() . PHP_EOL;
+            echo $exception->getMessage() . PHP_EOL;
             exit($exitCode);
         }
     }
