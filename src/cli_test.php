@@ -1,53 +1,52 @@
 <?php
+/**
+ * CLI script to check the backlinks on a page.
+ * This is a demo of using the BacklinkChecker library.
+ * See https://github.com/rvalitov/backlink-checker-php
+ * @author Ramil Valitov
+ * @license GPL-3.0
+ */
 
-require __DIR__ . "/../vendor/autoload.php";
+namespace Valitov\BacklinkCheckerDemo;
 
-const SCREENSHOTS_DIR = __DIR__ . "/screenshots";
+require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/base.php";
 
-use League\CLImate\CLImate;
 use Valitov\BacklinkChecker;
 
 if (php_sapi_name() !== 'cli') {
-    die("This script can run in CLI mode only");
+    Base::endProgram("This script can run in CLI mode only", \RuntimeException::class);
 }
 
-$climate = new CLImate;
-
-$shortOpts = "u:p:m::";
-
+$shortOpts = "u:p:m:";
 $options = getopt($shortOpts);
 if ($options === false || !isset($options["u"]) || !isset($options["p"])) {
-    $climate->error("Missing required arguments: u - for URL and p for RegExp pattern");
-    exit(1);
+    Base::endProgram("Missing required arguments: u - for URL and p for RegExp pattern", \InvalidArgumentException::class);
 }
 
-$url = $options["u"];
-if (!is_string($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
-    $climate->error("Invalid URL");
-    exit(1);
+$url = trim($options["u"]);
+
+// Check that the URL uses the HTTP or HTTPS protocol
+if (@preg_match('/^https?:\/\//', $url) !== 1) {
+    Base::endProgram("HTTP or HTTPS protocol is required to be specified", \InvalidArgumentException::class);
 }
 
-$pattern = $options["p"];
-if (!is_string($pattern)) {
-    $climate->error("Pattern must be a string");
-    exit(1);
-}
-if ($pattern === "") {
-    $climate->error("Pattern is empty");
-    exit(1);
+if (!filter_var($url, FILTER_VALIDATE_URL)) {
+    Base::endProgram("Invalid URL", \InvalidArgumentException::class);
 }
 
+$pattern = trim($options["p"]);
 if (@preg_match($pattern, '') === false) {
-    $climate->error("Failed to validate RegExp pattern. Does it contain a syntax error?");
-    exit(1);
+    Base::endProgram("Failed to validate RegExp pattern. Does it contain a syntax error?", \InvalidArgumentException::class);
 }
 
 if (!isset($options["m"]) || !is_string($options["m"]) || $options["m"] === "") {
     $options["m"] = "javascript";
 }
 
-$parameter = strtolower($options["m"]);
+$parameter = trim(strtolower($options["m"]));
 switch ($parameter) {
+    case "":
     case "javascript":
         $checker = new BacklinkChecker\ChromeBacklinkChecker();
         break;
@@ -55,45 +54,40 @@ switch ($parameter) {
         $checker = new BacklinkChecker\SimpleBacklinkChecker();
         break;
     default:
-        $climate->error("Invalid value for parameter mode");
-        exit(1);
+        Base::endProgram("Invalid value for parameter mode: \"$parameter\"", \InvalidArgumentException::class);
 }
 
-$climate->cyan("Using mode: " . $parameter);
+echo "Using mode: $parameter" . PHP_EOL;
 
-if (!file_exists(SCREENSHOTS_DIR)) {
-    if (!@mkdir(SCREENSHOTS_DIR)) {
-        $climate->error("Failed to create directory for screenshots");
-        exit(1);
+if (!file_exists(Base::SCREENSHOTS_DIR)) {
+    if (!@mkdir(Base::SCREENSHOTS_DIR)) {
+        Base::endProgram("Failed to create directory for screenshots", \RuntimeException::class);
     }
 } else {
-    if (!is_dir(SCREENSHOTS_DIR)) {
-        $climate->error("Screenshots directory is not a directory. Please remove the file with the same name.");
-        exit(1);
+    if (!is_dir(Base::SCREENSHOTS_DIR)) {
+        Base::endProgram("Screenshots directory is not a directory. Please remove the file with the same name.", \RuntimeException::class);
     }
 }
 
 try {
     $result = $checker->getBacklinks($url, $pattern, true, false, true);
 } catch (\Exception $e) {
-    $climate->error($e->getMessage());
-    exit(1);
+    Base::endProgramException($e);
 }
 $response = $result->getResponse();
 $screenshot = $response->getScreenshot();
 if ($screenshot) {
     $file_name = preg_replace('/[^a-z0-9]+/', '-', strtolower(html_entity_decode($url)));
-    file_put_contents(SCREENSHOTS_DIR . "/" . $file_name . ".jpg", $screenshot);
+    file_put_contents(Base::SCREENSHOTS_DIR . "/" . $file_name . ".jpg", $screenshot);
 }
 if (!$response->isSuccess()) {
-    $climate->error("Error code: " . $response->getStatusCode());
-    exit(1);
+    Base::endProgram("Failed to retrieve the page content. Error code: " . $response->getStatusCode(), \RuntimeException::class);
 }
 
 $links = $result->getBacklinks();
-$climate->cyan("Found " . sizeof($links) . " backlinks");
+echo "Found " . sizeof($links) . " backlinks" . PHP_EOL;
 
 foreach ($links as $link) {
-    $climate->out("Found <" . $link->getTag() . "> src=" . $link->getBacklink() . " anchor=" . $link->getAnchor());
+    echo "Found <" . $link->getTag() . "> src=" . $link->getBacklink() . " anchor=" . $link->getAnchor() . PHP_EOL;
 }
-$climate->cyan("All operations complete");
+echo "All operations complete" . PHP_EOL;
