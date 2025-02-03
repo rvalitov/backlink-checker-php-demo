@@ -25,6 +25,9 @@ if ($options === false || !isset($options["u"]) || !isset($options["p"])) {
     Base::endProgram("Missing required arguments: u - for URL and p for RegExp pattern", \InvalidArgumentException::class);
 }
 
+/**
+ * @psalm-suppress PossiblyInvalidArgument
+ */
 $url = trim($options["u"]);
 
 // Check that the URL uses the HTTP or HTTPS protocol
@@ -36,7 +39,14 @@ if (!filter_var($url, FILTER_VALIDATE_URL)) {
     Base::endProgram("Invalid URL", \InvalidArgumentException::class);
 }
 
+/**
+ * @psalm-suppress PossiblyInvalidArgument
+ */
 $pattern = trim($options["p"]);
+
+/**
+ * @psalm-suppress ArgumentTypeCoercion
+ */
 if (@preg_match($pattern, '') === false) {
     Base::endProgram("Failed to validate RegExp pattern. Does it contain a syntax error?", \InvalidArgumentException::class);
 }
@@ -71,10 +81,17 @@ if (!file_exists(Base::SCREENSHOTS_DIR)) {
 }
 
 try {
+    /**
+     * @psalm-suppress PossiblyUndefinedGlobalVariable
+     */
     $result = $checker->getBacklinks($url, $pattern, true, false, true);
 } catch (\Exception $e) {
     Base::endProgramException($e);
 }
+
+/**
+ * @psalm-suppress PossiblyUndefinedGlobalVariable
+ */
 $response = $result->getResponse();
 $screenshot = $response->getScreenshot();
 if ($screenshot) {
@@ -85,6 +102,9 @@ if (!$response->isSuccess()) {
     Base::endProgram("Failed to retrieve the page content. Error code: " . $response->getStatusCode(), \RuntimeException::class);
 }
 
+/**
+ * @psalm-suppress PossiblyUndefinedGlobalVariable
+ */
 $links = $result->getBacklinks();
 echo "Found " . sizeof($links) . " backlinks" . PHP_EOL;
 

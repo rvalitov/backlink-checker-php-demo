@@ -13,6 +13,7 @@ class Base
      * @param int $exitCode - the exit code to return if the app is not running under PHPUnit
      * @return void
      * @SuppressWarnings(PHPMD.ExitExpression)
+     * @psalm-suppress InvalidThrow
      */
     public static function endProgram(string $message, string $exceptionClass, int $exitCode = 1): void
     {
@@ -33,6 +34,7 @@ class Base
      * @param int $exitCode - the exit code to return if the app is not running under PHPUnit
      * @return void
      * @SuppressWarnings(PHPMD.ExitExpression)
+     * @psalm-suppress InvalidThrow
      */
     public static function endProgramException(\Exception $exception, int $exitCode = 1): void
     {
