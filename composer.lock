@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe1ed67413bff7014a3e3bc9b232a4e7",
+    "content-hash": "8225afdc1749cbc718bc516ce8429016",
     "packages": [
         {
             "name": "clue/socket-raw",
@@ -6922,6 +6922,8 @@
         "php": "^8.0.7 || >=8.1",
         "ext-mbstring": "*"
     },
-    "platform-dev": {},
+    "platform-dev": {
+        "ext-gd": "*"
+    },
     "plugin-api-version": "2.6.0"
 }
