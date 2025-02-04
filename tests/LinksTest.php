@@ -44,7 +44,7 @@ final class LinksTest extends TestCase //phpcs:ignore
         ];
 
         foreach ($engines as $engine) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => self::HOST . "link.html",
                 "p" => "@.*@",
@@ -54,9 +54,9 @@ final class LinksTest extends TestCase //phpcs:ignore
             ob_clean();
             require self::SCRIPT_FILENAME;
             $output = ob_get_contents();
-            $this->assertStringContainsString("Found 1 backlinks", $output);
+            $this->checkForBacklinksCount($output, 1);
             $this->assertStringContainsString("Found <a> src=https://example.com anchor=Click here", $output);
-            $this->assertStringContainsString("All operations complete", $output);
+            $this->checkForOperationsComplete($output);
             Mock::disableAll();
             unset($getOpt);
         }
@@ -74,7 +74,7 @@ final class LinksTest extends TestCase //phpcs:ignore
         ];
 
         foreach ($engines as $engine) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => self::HOST . "links.html",
                 "p" => "@.*@",
@@ -84,14 +84,14 @@ final class LinksTest extends TestCase //phpcs:ignore
             ob_clean();
             require self::SCRIPT_FILENAME;
             $output = ob_get_contents();
-            $this->assertStringContainsString("Found 2 backlinks", $output);
+            $this->checkForBacklinksCount($output, 2);
             $this->assertStringContainsString("Found <a> src=https://example.com anchor=First", $output);
             $this->assertStringContainsString("Found <a> src=https://example2.com anchor=Second", $output);
-            $this->assertStringContainsString("All operations complete", $output);
+            $this->checkForOperationsComplete($output);
             Mock::disableAll();
             unset($getOpt);
 
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => self::HOST . "links.html",
                 "p" => "@https:\/\/example2\.com@",
@@ -101,9 +101,9 @@ final class LinksTest extends TestCase //phpcs:ignore
             ob_clean();
             require self::SCRIPT_FILENAME;
             $output = ob_get_contents();
-            $this->assertStringContainsString("Found 1 backlinks", $output);
+            $this->checkForBacklinksCount($output, 1);
             $this->assertStringContainsString("Found <a> src=https://example2.com anchor=Second", $output);
-            $this->assertStringContainsString("All operations complete", $output);
+            $this->checkForOperationsComplete($output);
             Mock::disableAll();
             unset($getOpt);
         }
@@ -120,7 +120,7 @@ final class LinksTest extends TestCase //phpcs:ignore
             "javascript",
         ];
         foreach ($engines as $engine) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => self::HOST . "nolink.html",
                 "p" => "@.*@",
@@ -130,12 +130,12 @@ final class LinksTest extends TestCase //phpcs:ignore
             ob_clean();
             require self::SCRIPT_FILENAME;
             $output = ob_get_contents();
-            $this->assertStringContainsString("Found 0 backlinks", $output);
-            $this->assertStringContainsString("All operations complete", $output);
+            $this->checkForBacklinksCount($output, 0);
+            $this->checkForOperationsComplete($output);
             Mock::disableAll();
             unset($getOpt);
 
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => self::HOST . "links.html",
                 "p" => "@https:\/\/example10\.com@",
@@ -145,8 +145,8 @@ final class LinksTest extends TestCase //phpcs:ignore
             ob_clean();
             require self::SCRIPT_FILENAME;
             $output = ob_get_contents();
-            $this->assertStringContainsString("Found 0 backlinks", $output);
-            $this->assertStringContainsString("All operations complete", $output);
+            $this->checkForBacklinksCount($output, 0);
+            $this->checkForOperationsComplete($output);
             Mock::disableAll();
             unset($getOpt);
         }
@@ -166,7 +166,7 @@ final class LinksTest extends TestCase //phpcs:ignore
             }
         }
 
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+        $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
         $getOpt->expects($this->once())->willReturn([
             "u" => self::HOST . "link.html",
             "p" => "@.*@",
@@ -179,7 +179,7 @@ final class LinksTest extends TestCase //phpcs:ignore
         unset($getOpt);
         $output = ob_get_contents();
         $this->assertStringContainsString("Found <", $output);
-        $this->assertStringContainsString("All operations complete", $output);
+        $this->checkForOperationsComplete($output);
 
         // Check if the screenshot was saved
         $files = glob(Base::SCREENSHOTS_DIR . "/*");
@@ -199,7 +199,7 @@ final class LinksTest extends TestCase //phpcs:ignore
     public function testJsLink(): void
     {
         // In simple mode, we can detect only one link
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+        $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
         $getOpt->expects($this->once())->willReturn([
             "u" => self::HOST . "js.html",
             "p" => "@.*@",
@@ -211,12 +211,12 @@ final class LinksTest extends TestCase //phpcs:ignore
         Mock::disableAll();
         unset($getOpt);
         $output = ob_get_contents();
-        $this->assertStringContainsString("Found 1 backlinks", $output);
+        $this->checkForBacklinksCount($output, 1);
         $this->assertStringContainsString("Found <a> src=https://example.com anchor=Static", $output);
-        $this->assertStringContainsString("All operations complete", $output);
+        $this->checkForOperationsComplete($output);
 
         // In JS mode, we can detect both links
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+        $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
         $getOpt->expects($this->once())->willReturn([
             "u" => self::HOST . "js.html",
             "p" => "@.*@",
@@ -228,9 +228,30 @@ final class LinksTest extends TestCase //phpcs:ignore
         Mock::disableAll();
         unset($getOpt);
         $output = ob_get_contents();
-        $this->assertStringContainsString("Found 2 backlinks", $output);
+        $this->checkForBacklinksCount($output, 2);
         $this->assertStringContainsString("Found <a> src=https://example.com anchor=Static", $output);
         $this->assertStringContainsString("Found <a> src=https://example.com anchor=Dynamic", $output);
+        $this->checkForOperationsComplete($output);
+    }
+
+    /**
+     * Checks that the CLI app returned message that all operations are complete
+     * @param string $output
+     * @return void
+     */
+    private function checkForOperationsComplete($output): void
+    {
         $this->assertStringContainsString("All operations complete", $output);
+    }
+
+    /**
+     * Checks if the CLI output contains the specified number of backlinks
+     * @param string $output
+     * @param int $count
+     * @return void
+     */
+    private function checkForBacklinksCount(string $output, int $count): void
+    {
+        $this->assertStringContainsString("Found $count backlinks", $output);
     }
 }

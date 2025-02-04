@@ -11,6 +11,9 @@ use GuzzleHttp\Exception\ConnectException;
 use phpmock\Mock;
 use PHPUnit\Framework\TestCase;
 
+define("USING_MODE_SIMPLE", "Using mode: simple");
+define("USING_MODE_JAVASCRIPT", "Using mode: javascript");
+
 /**
  * Class BasicTest
  * Tests the code base with the basic functionality
@@ -51,7 +54,7 @@ final class BasicTest extends TestCase //phpcs:ignore
         ];
 
         foreach ($optionsList as $options) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn($options);
 
             $this->expectException(\InvalidArgumentException::class);
@@ -90,7 +93,7 @@ final class BasicTest extends TestCase //phpcs:ignore
         ];
 
         foreach ($invalidPatterns as $pattern) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => "https://example.com",
                 "p" => $pattern,
@@ -135,7 +138,7 @@ final class BasicTest extends TestCase //phpcs:ignore
         ];
 
         foreach ($urls as $url) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => $url,
                 "p" => "/.*/",
@@ -155,7 +158,7 @@ final class BasicTest extends TestCase //phpcs:ignore
      */
     public function testInvalidSapi(): void
     {
-        $phpSapiName = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "php_sapi_name");
+        $phpSapiName = $this->getFunctionMock(__NAMESPACE__, "php_sapi_name");
         $phpSapiName->expects($this->once())->willReturn("php-fpm");
 
         $this->expectExceptionMessage("This script can run in CLI mode only");
@@ -174,7 +177,7 @@ final class BasicTest extends TestCase //phpcs:ignore
         ];
 
         foreach ($urls as $url) {
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn([
                 "u" => $url,
                 "p" => "/.*/",
@@ -193,7 +196,7 @@ final class BasicTest extends TestCase //phpcs:ignore
      */
     public function testInvalidModes(): void
     {
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+        $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
         $this->expectExceptionMessageMatches("/^Invalid value for parameter mode/");
         $getOpt->expects($this->once())->willReturn([
             "u" => self::HOST,
@@ -214,27 +217,27 @@ final class BasicTest extends TestCase //phpcs:ignore
         $modes = [
             [
                 "simple",
-                "Using mode: simple",
+                USING_MODE_SIMPLE,
             ],
             [
                 "Simple",
-                "Using mode: simple",
+                USING_MODE_SIMPLE,
             ],
             [
                 " Simple  ",
-                "Using mode: simple",
+                USING_MODE_SIMPLE,
             ],
             [
                 "javascript",
-                "Using mode: javascript",
+                USING_MODE_JAVASCRIPT,
             ],
             [
                 "",
-                "Using mode: javascript",
+                USING_MODE_JAVASCRIPT,
             ],
             [
                 "none",
-                "Using mode: javascript",
+                USING_MODE_JAVASCRIPT,
             ],
         ];
 
@@ -246,7 +249,7 @@ final class BasicTest extends TestCase //phpcs:ignore
             if ($mode[0] !== "none") {
                 $options["m"] = $mode[0];
             }
-            $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+            $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
             $getOpt->expects($this->once())->willReturn($options);
 
             ob_clean();
@@ -264,7 +267,7 @@ final class BasicTest extends TestCase //phpcs:ignore
      */
     public function testInvalidWebsite(): void
     {
-        $getOpt = $this->getFunctionMock("Valitov\BacklinkCheckerDemo", "getopt");
+        $getOpt = $this->getFunctionMock(__NAMESPACE__, "getopt");
         $getOpt->expects($this->once())->willReturn([
             "u" => "https://some-missing-domain-in-internet.com",
             "p" => "/.*/",
