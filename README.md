@@ -1,27 +1,51 @@
-# About 
-This is a demo project to demonstrate how the [Backlink Checker PHP library](https://github.com/rvalitov/backlink-checker-php) works.
+# Backlink Checker PHP Demo
 
-#### SYNOPSIS
+- This is a demo project to demonstrate how
+  the [Backlink Checker PHP library](https://github.com/rvalitov/backlink-checker-php) works.
+- The script is useful for SEO experts to validate your backlink assets.
+- It checks that the backlinks are present or not on the defined web page.
+- You get the web page from your backlink collection (bought at market or got by other means).
 
-php **cli_test.php** -u *URL* -p *PATTERN* [-m *MODE*]
+## Installation
 
-#### DESCRIPTION
-Script is used to check if a specified *URL* contains a backlink to a website defined by the *PATTERN* which is a [regular expression](https://en.wikipedia.org/wiki/Regular_expression). Optional parameter *MODE* defines what engine will be used for website scraping and can be one of the following:
+1. Clone the repository
+2. Install dependencies with Composer `composer install --no-dev`
+3. Install dependencies with NPM `npm ci --omit=dev`
 
-- `javascript` (default) - Chromium headless mode is used with JavaScript support
-- `simple` - simple parsing of HTML, without JavaScript support
+## Synopsis
 
-The script is useful for SEO experts when you need to validate that your backlinks still exist on the web pages where you set them or bought them.
+The executable script is in `src` folder.
+Script usage:
 
-If `javascript` mode is used, then the script will save a screenshot of the browser's viewport and save it in JPEG format in the `screenshots` folder.
+```console
+php cli_test.php -u URL -p PATTERN [-m MODE]
+```
 
-# Usage Example
+Arguments:
+
+- `URL` (required) — URL to check for backlinks
+- `PATTERN` (required) — a regular expression pattern that defines a backlink to search for
+- `MODE` (optional) — scraping mode. Possible values:
+  - `javascript` (default) - Chromium headless mode is used with JavaScript support
+  - `simple` - simple parsing of HTML, without JavaScript support
+
+If `javascript` mode is used then the script takes a screenshot of the web page
+and saves it in JPEG format in the `screenshots` folder.
+
+## Usage Example
+
 Input and output:
 
-```
+```console
 php cli_test.php -u https://dubaidance.com/ -p "@^https://(www\.)?dubaidance\.com.*@"
 Using mode: javascript
 Found 1 backlinks
 Found <a> src=https://dubaidance.com/ anchor=go now
 All operations complete
 ```
+
+## References
+
+- [Backlink Checker PHP library](https://github.com/rvalitov/backlink-checker-php)
+- [Regular expression pattern](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php)
+- [Regular expression playground](https://regex101.com/)

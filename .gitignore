@@ -22,3 +22,7 @@ node_modules/
 
 #screenshots
 screenshots/
+
+*.phar
+*.cache
+coverage
