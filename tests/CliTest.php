@@ -39,10 +39,10 @@ final class CliTest extends TestCase //phpcs:ignore
         ];
         foreach ($engines as $engine) {
             exec("$this->phpExecutable -u \"$url\" -p \"@.*@\" -m $engine", $output, $exitCode);
-            $this->assertEquals(0, $exitCode, "Exit code is not 0");
             $this->assertIsArray($output, "Failed to get the output from the script");
             // Merge the output array into a single string
             $output = implode("\n", $output);
+            $this->assertEquals(0, $exitCode, "Exit code is not 0" . PHP_EOL . $output);
             $this->assertStringContainsString("Using mode: $engine", $output, "Invalid mode");
             $this->assertStringContainsString("Found 2 backlinks", $output, "Invalid number of backlinks");
         }
