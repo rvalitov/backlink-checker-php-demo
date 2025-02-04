@@ -11,7 +11,7 @@
 namespace Valitov\BacklinkCheckerDemo;
 
 require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__ . "/base.php";
+require_once __DIR__ . "/Base.php";
 
 use Valitov\BacklinkChecker;
 
