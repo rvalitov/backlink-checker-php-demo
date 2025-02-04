@@ -4,6 +4,7 @@
   "homepage": "https://github.com/rvalitov/backlink-checker-php-demo",
   "license": "GPL-3.0-or-later",
   "scripts": {
+    "phpcbf": "phpcbf",
     "phpcs": "phpcs -s",
     "phpcs-fixer": "php-cs-fixer --stop-on-violation --verbose check",
     "phpcs-fixer:fix": "php-cs-fixer fix",

@@ -22,7 +22,10 @@ if (php_sapi_name() !== 'cli') {
 $shortOpts = "u:p:m:";
 $options = getopt($shortOpts);
 if ($options === false || !isset($options["u"]) || !isset($options["p"])) {
-    Base::endProgram("Missing required arguments: u - for URL and p for RegExp pattern", \InvalidArgumentException::class);
+    Base::endProgram(
+        "Missing required arguments: u - for URL and p for RegExp pattern",
+        \InvalidArgumentException::class
+    );
 }
 
 /**
@@ -48,7 +51,10 @@ $pattern = trim($options["p"]);
  * @psalm-suppress ArgumentTypeCoercion
  */
 if (@preg_match($pattern, '') === false) {
-    Base::endProgram("Failed to validate RegExp pattern. Does it contain a syntax error?", \InvalidArgumentException::class);
+    Base::endProgram(
+        "Failed to validate RegExp pattern. Does it contain a syntax error?",
+        \InvalidArgumentException::class
+    );
 }
 
 if (!isset($options["m"]) || !is_string($options["m"]) || $options["m"] === "") {
@@ -65,10 +71,14 @@ switch ($parameter) {
         $checker = new BacklinkChecker\SimpleBacklinkChecker();
         break;
     default:
-        Base::endProgram("Invalid value for parameter mode: \"$parameter\"", \InvalidArgumentException::class);
+        Base::endProgram(
+            "Invalid value for parameter mode: \"$parameter\"",
+            \InvalidArgumentException::class
+        );
 }
 
 echo "Using mode: $parameter" . PHP_EOL;
+echo "Screenshots directory: " . Base::SCREENSHOTS_DIR . PHP_EOL;
 
 if (!file_exists(Base::SCREENSHOTS_DIR)) {
     if (!@mkdir(Base::SCREENSHOTS_DIR)) {
@@ -76,7 +86,10 @@ if (!file_exists(Base::SCREENSHOTS_DIR)) {
     }
 } else {
     if (!is_dir(Base::SCREENSHOTS_DIR)) {
-        Base::endProgram("Screenshots directory is not a directory. Please remove the file with the same name.", \RuntimeException::class);
+        Base::endProgram(
+            "Screenshots directory is not a directory. Remove the file with the same name.",
+            \RuntimeException::class
+        );
     }
 }
 
@@ -99,14 +112,17 @@ if ($screenshot) {
     file_put_contents(Base::SCREENSHOTS_DIR . "/" . $file_name . ".jpg", $screenshot);
 }
 if (!$response->isSuccess()) {
-    Base::endProgram("Failed to retrieve the page content. Error code: " . $response->getStatusCode(), \RuntimeException::class);
+    Base::endProgram(
+        "Failed to retrieve the page content. Error code: " . $response->getStatusCode(),
+        \RuntimeException::class
+    );
 }
 
 /**
  * @psalm-suppress PossiblyUndefinedGlobalVariable
  */
 $links = $result->getBacklinks();
-echo "Found " . sizeof($links) . " backlinks" . PHP_EOL;
+echo "Found " . count($links) . " backlinks" . PHP_EOL;
 
 foreach ($links as $link) {
     echo "Found <" . $link->getTag() . "> src=" . $link->getBacklink() . " anchor=" . $link->getAnchor() . PHP_EOL;

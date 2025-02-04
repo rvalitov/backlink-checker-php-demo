@@ -256,7 +256,6 @@ final class BasicTest extends TestCase //phpcs:ignore
             Mock::disableAll();
             unset($getOpt);
         }
-
     }
 
     /**
