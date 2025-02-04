@@ -23,7 +23,7 @@ final class CliTest extends TestCase //phpcs:ignore
     public function __construct()
     {
         parent::__construct();
-        $this->phpExecutable = "php" . PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . " " . self::SCRIPT_FILENAME;
+        $this->phpExecutable = PHP_BINARY . " " . self::SCRIPT_FILENAME;
     }
 
     /**
