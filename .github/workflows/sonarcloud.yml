@@ -26,7 +26,7 @@ env:
 jobs:
   sonarqube:
     name: SonarQube
-    runs-on: ${{ vars.UBUNTU_VERSION }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Setup PHP ${{ env.PHP_VERSION }}

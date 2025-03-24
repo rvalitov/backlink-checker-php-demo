@@ -20,9 +20,8 @@ final class CliTest extends TestCase //phpcs:ignore
      */
     public string $phpExecutable;
 
-    public function __construct()
+    protected function setUp(): void
     {
-        parent::__construct();
         $this->phpExecutable = PHP_BINARY . " " . self::SCRIPT_FILENAME;
     }
 
