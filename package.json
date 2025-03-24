@@ -28,7 +28,6 @@
     "test:8.4": "npm run style && npm run php:8.4 && npm run coverage"
   },
   "dependencies": {
-    "@nesk/rialto": "^1.4.0",
     "@zoon/puphpeteer": "https://github.com/zoonru/puphpeteer/tarball/zoon"
   },
   "devDependencies": {
