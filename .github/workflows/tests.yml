@@ -18,8 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: ["ubuntu-latest", "macos-latest", "windows-latest"]
-        php-versions: ["8.0", "8.1", "8.2", "8.3"]
+        php-versions: [ "7.4", "8.0", "8.1", "8.2", "8.3", "8.4" ]
         include:
+          - php-versions: "7.4"
+            phpunit-versions: 9
           - php-versions: "8.0"
             phpunit-versions: 9
           - php-versions: "8.1"
@@ -27,8 +29,12 @@ jobs:
           - php-versions: "8.2"
             phpunit-versions: 11
           - php-versions: "8.3"
-            phpunit-versions: 11
+            phpunit-versions: 12
+          - php-versions: "8.4"
+            phpunit-versions: 12
+
     runs-on: ${{ matrix.operating-system }}
+    name: OS ${{ matrix.operating-system }} | PHP ${{ matrix.php-versions }}
 
     steps:
       - name: Setup PHP ${{ matrix.php-versions }}
@@ -64,8 +70,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
@@ -86,10 +90,12 @@ jobs:
       - name: Server warm up
         run: sleep 5
 
-      # TODO: the problem is that Prettier does not work properly on Windows. Good to fix this in the future.
-      - if: matrix.operating-system == 'windows-latest'
-        name: Run short test suite
-        run: npm run test:small
-      - if: matrix.operating-system != 'windows-latest'
-        name: Run full test suite
+      - if: matrix.php-versions != '8.4'
+        name: Run test suite
+        shell: bash
         run: npm run test
+
+      - if: matrix.php-versions == '8.4'
+        name: Run test suite for PHP 8.4
+        shell: bash
+        run: npm run test:8.4

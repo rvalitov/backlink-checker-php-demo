@@ -9,6 +9,7 @@ require_once __DIR__ . "/../src/Base.php";
 
 use GuzzleHttp\Exception\ConnectException;
 use phpmock\Mock;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 define("USING_MODE_SIMPLE", "Using mode: simple");
@@ -18,6 +19,7 @@ define("USING_MODE_JAVASCRIPT", "Using mode: javascript");
  * Class BasicTest
  * Tests the code base with the basic functionality
  */
+#[CoversClass(Base::class)]
 final class BasicTest extends TestCase //phpcs:ignore
 {
     use \phpmock\phpunit\PHPMock;
